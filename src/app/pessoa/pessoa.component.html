@@ -1,0 +1,104 @@
+<div id="rolepage" class="container-fluid">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a class="navbar-brand" href="#">Sistema de Cadastro</a>
+    <ul class="navbar-nav">
+      <li class="nav-item navbar-btn active">
+        <button class="btn btn-success" data-toggle="modal" data-target="modalCadastro" id="btn-cadastro">Cadastrar</button>
+      </li>
+    </ul>
+  </nav>Sistema d
+</div>
+<br>
+<div class="col-md-6 col-lg-7 col-sm-1 ml-auto mr-auto">
+  <div class="card-columns">
+    <div *ngFor="let item of pessoas">
+      <div class="card">
+        <img src="assets/img/avatar.png" class="card-img-top">
+        <div class="card-body">
+          <h3 class="card-title">{{item.nomePessoa}}</h3>
+          <h5 class="card-subtitle">{{item.email}}</h5>
+          <br>
+          <ul class="list-group list-group-flush" *ngFor="let telefone of item.telefones">
+            <li class="list-group-item">{{telefone.telefone}}</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-secondary btn-block" data-target="modalUpdate" id="btn-update" (click)="showModalUpdate()" (click)="setPessoa(item)">Atualizar</button>
+          <button class="btn btn-danger btn-block" (click)="excluir(item.idPessoa)">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Cadastro -->
+<div class="modal fade" id="modalCadastro" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cadastro</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" class="form-control" [(ngModel)]="pessoa.nomePessoa" placeholder="Digite seu nome">
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" class="form-control" [(ngModel)]="pessoa.email" placeholder="email@exemplo.com">
+        </div>
+        <div class="form-group">
+          <label for="telefone1">Telefone Fixo</label>
+          <input type="text" class="form-control" id="telefone1" mask="(00) 0000-0000" [(ngModel)]="telefone1.telefone"
+            placeholder="(00) 0000-0000">
+        </div>
+        <div class="form-group">
+          <label for="nome">Celular</label>
+          <input type="text" class="form-control" id="telefone2" mask="(00) 90000-0000" [(ngModel)]="telefone2.telefone"
+            placeholder="(00) 00000-0000">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="gravar()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Atualização -->
+<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{pessoa.nomePessoa}}</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="cleanPessoa()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" class="form-control" [(ngModel)]="pessoa.nomePessoa" value="pessoa.nomePessoa">
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" class="form-control" [(ngModel)]="pessoa.email" value="pessoa.email">
+        </div>
+        <div *ngFor="let telefone of pessoa.telefones">
+          <div class="form-group">
+            <label for="telefone1">Telefone</label>
+            <input type="hidden" value="{{telefone.idTelefone}}">
+            <input type="text" class="form-control" id="telefone1" mask="(00) 0000-0000" [(ngModel)]="telefone1.telefone"
+              value="{{telefone.telefone}}">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="atualizar()">Atualizar Dados</button>
+      </div>
+    </div>
+  </div>
+</div>
